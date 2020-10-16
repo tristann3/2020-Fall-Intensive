@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NameRight</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
-
-
 </head>
 <body>
     <main>
+        <nav id="nav-bar">
+             <ul>
+                <li><a href="#">Sign Up</a></li>
+                <li><a href="#">Log in</a></li>
+            </ul>
+        </nav>
         <div id="left-container">
             <img src="NameRight.png" height=170 width=auto alt="NameRight Logo">
         </div>
         <div id="right-container">
-            <nav id="nav-bar">
-                <ul>
-                    <li><a href="#">Sign Up</a></li>
-                    <li><a href="#">Log in</a></li>
-                </ul>
-            </nav>
             <div id="main-inputs">
-                <div id ="first-name-container">
+                <div id="first-name-container">
                     <label for="first-name">First Name: </label>
                     <input type ="text" id ="first-name"><br>
+                    <select id="first-name-languages">
+
+                    </select>
                 </div>
                 <div id ="last-name-container">
                     <label for="last-name">Last Name: </label>
                     <input type ="text" id ="last-name"><br>
-                </div>                
+                    <select id="last-name-languages">
+
+                    </select>
+                </div>  
+                <input type="button" id="btnAPIRequest">              
             </div>
         </div>
+        <script type="text/javascript" src="index.js"></script>
         
     </main>
     
