@@ -32,19 +32,31 @@ let PageManager = {
     };
     
     $.ajax(settings).done(function (response) {
-      PageManager.buildOrigins(response);
+      PageManager.buildPronunciations(response);
       console.log(response);
     });
   },
-  buildOrigins : function (response) {
-    // This function will retrieve all of the possible pronunciations of the typed name and update the dropdown accordingly
+  buildPronunciations : function (response) {
+    // This function will build a Pronunciations objecet to use in another function
+    let pronunciationsObj = {
+      name: response.target_results[0].target_origin,
+    };
     var pronunciations = response.target_results[0].pronunciations;
-    let originsArray = [];
+    let pronunciationURLArray = [];
+    let pronunciationOriginArray = [];
     for (x=0 ; x < pronunciations.length; x++) {
-      originsArray.push(pronunciations[x].language_metadata.origin_language[0].language)
+      pronunciationURLArray.push(pronunciations[x].audio_url)
+      pronunciationOriginArray.push(pronunciations[x].language_metadata.origin_language[0].language)
     }
+    pronunciationsObj['url'] = pronunciationURLArray;
+    pronunciationsObj['origin'] = pronunciationOriginArray;
+    
+    updateDropdown(pronunciationsObj)
+  },
+  updateDropdown : function (pronunciationsObj) {
     
   }
+
 
 }
 window.onload = PageManager.init;
