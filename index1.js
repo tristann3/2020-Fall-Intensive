@@ -1,11 +1,16 @@
+var firstNameObj = {}
+var lastNameObj = {}
+// text inputs
 let txtFirstName = document.getElementById("first-name");
 txtFirstName.addEventListener("change", firstName);
-
 let txtLastName = document.getElementById("last-name");
 txtLastName.addEventListener("change", lastName);
+// button inputs
+let btnPlayFirstAudio = document.getElementById("btn-first");
+btnPlayFirstAudio.addEventListener("click", playAudio);
+let btnPlayLastAudio = document.getElementById("btn-last");
+btnPlayLastAudio.addEventListener("click", playAudio);
 
-let btnPlayAudio = document.getElementById("btn-first");
-btnPlayAudio.addEventListener("click", playAudio);
 
 console.log("Page Loaded!");
 
@@ -59,6 +64,12 @@ function buildPronunciations(response, firstLast) {
     pronunciationsObj['url'] = pronunciationURLArray;
     pronunciationsObj['origin'] = pronunciationOriginArray;
 
+    if (pronunciationsObj.firstLast == "first"){
+        firstNameObj = pronunciationsObj
+    }
+    else if (pronunciationsObj.firstLast == "last"){
+        lastNameObj = pronunciationsObj
+    }
     console.log(pronunciationsObj)
     
     updateDropdown(pronunciationsObj)
@@ -79,7 +90,17 @@ function updateDropdown(pronunciationsObj) {
       }
 }
 async function playAudio() {
-    let file = "https://nc-library-recordings.s3.us-west-1.amazonaws.com/uploads/recording/raw_s3_location/c1c8e70c-54d9-4b19-abd9-a8c45038686a/192ff3b82dbd81662971d1eebb31266f.wav" //plays audio file of current name selection
+    let index = ""
+    let file = ""
+    console.log("HEHEHE")
+    if (this.id == "btn-first"){
+        index = document.getElementById("first-name-languages").selectedIndex
+        file = firstNameObj.url[index]
+    }
+    else if (this.id == "btn-last"){
+        index = document.getElementById("last-name-languages").selectedIndex
+        file = lastNameObj.url[index]
+    }
     var audio = new Audio(file);  
     audio.type = 'audio/wav';
   
