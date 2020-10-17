@@ -1,36 +1,31 @@
-/* This JavaScript file will handle the API requests from the NameCoach API */
-// 
+let txtFirstName = document.getElementById("first-name");
+txtFirstName.addEventListener("change", firstName);
 
-let PageManager = {
+let txtLastName = document.getElementById("last-name");
+txtLastName.addEventListener("change", lastName);
 
-  init : function()
-  {
+let btnPlayAudio = document.getElementById("btn-first");
+btnPlayAudio.addEventListener("click", playAudio);
 
-      let txtFirstName = document.getElementById("first-name");
-      txtFirstName.addEventListener("change", PageManager.firstName);
+console.log("Page Loaded!");
 
-      let txtLastName = document.getElementById("last-name");
-      txtLastName.addEventListener("change", PageManager.lastName);
-
-      let btnPlayAudio = document.getElementById("btn-first");
-      btnPlayAudio.addEventListener("click", PageManager.playAudio);
-
-      // let btnAPIRequest = document.getElementById("btnAPIRequest");
-      // btnAPIRequest.addEventListener("click", PageManager.onAPIRequest);
-
-      console.log("Page Loaded!");
-  },
-  firstName : function () {
+function firstName() {
     firstLast = "first";
-    PageManager.onAPIRequest(firstLast);
-  },
-  lastName : function () {
+    onAPIRequest(firstLast);
+}
+function lastName () {
     firstLast = "last";
-    PageManager.onAPIRequest(firstLast);
-  },
-  onAPIRequest : function(firstLast) {
+    onAPIRequest(firstLast);
+}
+function onAPIRequest(firstLast) {
     console.log("Click!");
-    let txtName = document.getElementById("first-name").value.toString();
+    let txtName 
+    if (firstLast == "first") {
+        txtName = document.getElementById("first-name").value.toString();
+    }
+    else if (firstLast == "last") {
+        txtName = document.getElementById("last-name").value.toString();
+    }
     var settings = {
       "url": "https://gpdb.name-coach.com/api/public/v1/pronunciations/search",
       "method": "POST",
@@ -44,11 +39,11 @@ let PageManager = {
     };
     
     $.ajax(settings).done(function (response) {
-      PageManager.buildPronunciations(response, firstLast);
+      buildPronunciations(response, firstLast);
       console.log(response);
     });
-  },
-  buildPronunciations : function (response, firstLast) {
+}
+function buildPronunciations(response, firstLast) {
     // This function will build a Pronunciations objecet to use in another function
     let pronunciationsObj = {
       name: response.target_results[0].target_origin,
@@ -66,22 +61,24 @@ let PageManager = {
 
     console.log(pronunciationsObj)
     
-    PageManager.updateDropdown(pronunciationsObj)
-  },
-  updateDropdown : function (pronunciationsObj) {
+    updateDropdown(pronunciationsObj)
+}
+function updateDropdown(pronunciationsObj) {
+    let dropdown = ""
     if (pronunciationsObj.firstLast == "first"){
-      let dropdown = document.getElementById("first-name-languages")
-      for ( x=0; x<pronunciationsObj.origin.length; x++ ){
+        dropdown = document.getElementById("first-name-languages")
+    }
+    else if(pronunciationsObj.firstLast == "last"){
+        dropdown = document.getElementById("last-name-languages")
+      }
+    console.log(dropdown)
+    for ( x=0; x<pronunciationsObj.origin.length; x++ ){
         var option = document.createElement("option");
         option.text = pronunciationsObj.origin[x]
         dropdown.add(option)
       }
-    }
-    else  {
-      console.log("Hello")
-    }
-  }, 
-  playAudio : async function() {
+}
+async function playAudio() {
     let file = "https://nc-library-recordings.s3.us-west-1.amazonaws.com/uploads/recording/raw_s3_location/c1c8e70c-54d9-4b19-abd9-a8c45038686a/192ff3b82dbd81662971d1eebb31266f.wav" //plays audio file of current name selection
     var audio = new Audio(file);  
     audio.type = 'audio/wav';
@@ -93,5 +90,3 @@ let PageManager = {
       console.log('Failed to play...' + err);
     }
   }
-}
-window.onload = PageManager.init;
