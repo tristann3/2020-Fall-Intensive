@@ -8,3 +8,7 @@ The big idea behind this projects is for doctors/teachers to be able to say thei
 # How to use
 
 Enter your name, when the text box loses focus, the API call will be made, updating the dropdown and allowing the user to hear a pronunciation of their name
+
+# Live Link
+
+https://tristann3.github.io/2020-Fall-Intensive/
